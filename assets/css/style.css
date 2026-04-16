@@ -4,7 +4,7 @@
 
 
 /**
- * copyright 2022 @codewithsadee
+ * copyright 2026 @daniget12
  */
 
 
@@ -316,12 +316,12 @@ main {
 
 .sidebar {
   margin-bottom: 15px;
-  max-height: 112px;
-  overflow: hidden;
+  max-height: none;        
+  overflow: visible;        
   transition: var(--transition-2);
 }
 
-.sidebar.active { max-height: 405px; }
+.sidebar.active { max-height: none; }  
 
 .sidebar-info {
   position: relative;
@@ -354,48 +354,14 @@ main {
   border-radius: 8px;
 }
 
-.info_more-btn {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  border-radius: 0 15px;
-  font-size: 13px;
-  color: var(--orange-yellow-crayola);
-  background: var(--border-gradient-onyx);
-  padding: 10px;
-  box-shadow: var(--shadow-2);
-  transition: var(--transition-1);
-  z-index: 1;
-}
 
-.info_more-btn::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: var(--bg-gradient-jet);
-  transition: var(--transition-1);
-  z-index: -1;
-}
-
-.info_more-btn:hover,
-.info_more-btn:focus { background: var(--bg-gradient-yellow-1); }
-
-.info_more-btn:hover::before,
-.info_more-btn:focus::before { background: var(--bg-gradient-yellow-2); }
-
-.info_more-btn span { display: none; }
 
 .sidebar-info_more {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;                
+  visibility: visible;       
   transition: var(--transition-2);
 }
 
-.sidebar.active .sidebar-info_more {
-  opacity: 1;
-  visibility: visible;
-}
 
 .contacts-list {
   display: grid;
@@ -442,7 +408,6 @@ main {
   color: var(--light-gray-70);
   font-size: 18px;
 }
-
 
 .social-item .social-link:hover { color: var(--light-gray); }
 
