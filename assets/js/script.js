@@ -16,7 +16,7 @@ if (sidebarBtn) {
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
 const modalContainer = document.querySelector("[data-modal-container]");
 const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay"]);
+const overlay = document.querySelector("[data-overlay]");
 
 // modal variable
 const modalImg = document.querySelector("[data-modal-img]");
@@ -32,10 +32,10 @@ const testimonialsModalFunc = function () {
 // add click event to all modal items
 for (let i = 0; i < testimonialsItem.length; i++) {
   testimonialsItem[i].addEventListener("click", function () {
-    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+    if (modalImg) modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
+    if (modalImg) modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
+    if (modalTitle) modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
+    if (modalText) modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
     testimonialsModalFunc();
   });
 }
@@ -100,17 +100,19 @@ const formInputs = document.querySelectorAll("[data-form-input]");
 const formBtn = document.querySelector("[data-form-btn]");
 
 // add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-  });
+if (form && formInputs.length && formBtn) {
+  for (let i = 0; i < formInputs.length; i++) {
+    formInputs[i].addEventListener("input", function () {
+      if (form.checkValidity()) {
+        formBtn.removeAttribute("disabled");
+      } else {
+        formBtn.setAttribute("disabled", "");
+      }
+    });
+  }
 }
 
-// FIXED: page navigation variables
+// FIXED: page navigation variables - THIS IS THE IMPORTANT FIX
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
@@ -119,15 +121,33 @@ for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
     let clickedPage = this.innerHTML.toLowerCase();
     
+    // First, remove active class from ALL pages and ALL nav links
+    for (let j = 0; j < pages.length; j++) {
+      pages[j].classList.remove("active");
+      navigationLinks[j].classList.remove("active");
+    }
+    
+    // Then, find the matching page and add active class
     for (let j = 0; j < pages.length; j++) {
       if (clickedPage === pages[j].dataset.page) {
         pages[j].classList.add("active");
         navigationLinks[j].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[j].classList.remove("active");
-        navigationLinks[j].classList.remove("active");
+        break;
       }
     }
+    
+    window.scrollTo(0, 0);
   });
 }
+
+// Make sure About page is active by default (trigger once)
+// This ensures the page loads with About visible
+window.addEventListener('DOMContentLoaded', function() {
+  // Find and click the About button to set initial state
+  for (let i = 0; i < navigationLinks.length; i++) {
+    if (navigationLinks[i].innerHTML.toLowerCase() === 'about') {
+      navigationLinks[i].click();
+      break;
+    }
+  }
+});
